@@ -1,0 +1,8 @@
+<div class="container">
+  <button *ngIf="lightStatus === 'ON'" (click)="changeLightStatus('OFF')" class="status-on">
+    ON
+  </button>
+  <button *ngIf="lightStatus === 'OFF'" (click)="changeLightStatus('ON')" class="status-off">
+    OFF
+  </button>
+</div>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<enterprise-security-extension
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="enterprise-security-extension.xsd"
+        version="1">
+    <realms>
+        <jwt-realm>
+            <name>Keycloak</name>
+            <enabled>true</enabled>
+            <configuration>
+		<jwks-endpoint>http://keycloak:8080/auth/realms/master/protocol/openid-connect/certs</jwks-endpoint>
+                <introspection-endpoint>http://keycloak:8080/auth/realms/master/protocol/openid-connect/token/introspect</introspection-endpoint>
+                <simple-auth>
+                    <username>hivemq</username>
+                    <password>4bb291b2-59d3-49d8-841b-5b3056367068</password>
+                </simple-auth>
+            </configuration>
+        </jwt-realm>
+    </realms>
+    <pipelines>
+        <listener-pipeline name="keycloak-pipeline" listener="ALL">
+            <jwt-authentication-manager>
+                <realm>Keycloak</realm>
+            </jwt-authentication-manager>
+            <allow-all-authorization-manager/>
+        </listener-pipeline>
+    </pipelines>
+</enterprise-security-extension>

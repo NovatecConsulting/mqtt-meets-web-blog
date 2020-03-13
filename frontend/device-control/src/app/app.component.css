@@ -1,0 +1,13 @@
+.container {
+  text-align: center;
+  font-family: Arial, serif;
+  font-size: 30px;
+}
+
+.status-on {
+  font-weight: bolder;
+}
+
+.status-off {
+  font-weight: bold;
+}
