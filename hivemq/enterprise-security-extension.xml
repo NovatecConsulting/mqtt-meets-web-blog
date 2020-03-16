@@ -8,21 +8,31 @@
             <name>Keycloak</name>
             <enabled>true</enabled>
             <configuration>
-		<jwks-endpoint>http://keycloak:8080/auth/realms/master/protocol/openid-connect/certs</jwks-endpoint>
-                <introspection-endpoint>http://keycloak:8080/auth/realms/master/protocol/openid-connect/token/introspect</introspection-endpoint>
+		<jwks-endpoint>http://keycloak:8083/auth/realms/master/protocol/openid-connect/certs</jwks-endpoint>
+                <introspection-endpoint>http://keycloak:8083/auth/realms/master/protocol/openid-connect/token/introspect</introspection-endpoint>
                 <simple-auth>
                     <username>hivemq</username>
-                    <password>4bb291b2-59d3-49d8-841b-5b3056367068</password>
+                    <password>3dc2da1b-c6ae-4f3d-9371-f48479745a11</password>
                 </simple-auth>
             </configuration>
         </jwt-realm>
     </realms>
     <pipelines>
-        <listener-pipeline name="keycloak-pipeline" listener="ALL">
+        <listener-pipeline name="keycloak-pipeline" listener="websocket-frontend">
             <jwt-authentication-manager>
                 <realm>Keycloak</realm>
+                <jwt-validation>
+                    <enable-introspection>true</enable-introspection>
+                    <reserved-claims>
+                        <sub>${mqtt-username}</sub>
+                    </reserved-claims>
+                </jwt-validation>
             </jwt-authentication-manager>
-            <allow-all-authorization-manager/>
+	    <allow-all-authorization-manager/> <!--TODO  Use different authorization-manger, to check user specific permissions-->
+        </listener-pipeline>
+        <listener-pipeline name="mockdevice-pipeline" listener="mqtt-mockdevice"> <!-- XXX Only for testing purposes -->
+	    <allow-all-authentication-manager/>
+	    <allow-all-authorization-manager/> <!--TODO  Use different authorization-manger, to check user specific permissions-->
         </listener-pipeline>
     </pipelines>
 </enterprise-security-extension>
